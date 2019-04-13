@@ -1,7 +1,7 @@
 package com.lcd.smartdetectview.listener.detectlistener;
 
 
-import com.lcd.mylibrary.listener.BaseListener;
+import com.lcd.smartdetectview.listener.BaseListener;
 
 import entity.detectresult.BaseDetectResult;
 
