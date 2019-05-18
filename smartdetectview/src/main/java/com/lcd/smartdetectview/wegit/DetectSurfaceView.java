@@ -18,11 +18,16 @@ import com.lcd.smartdetectview.Utils.TransUtil;
 import com.lcd.smartdetectview.listener.detectlistener.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import detector.AnimalDetector;
+import detector.CarDetector;
 import detector.DetectorFactory;
+import detector.GeneralObjectDetector;
 import detector.MainObjectDetector;
+import detector.PlantDetector;
 import entity.detectresult.BaseDetectResult;
 import entity.detectresult.MainObjectDetectResult;
 import imageclassify.AipImageClassify;
@@ -47,6 +52,7 @@ public class DetectSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private MainObjectDetectListener m_mainobjectdetectlistener;
     private DetectListener m_detectlistenerResult;
     private DetectListener m_detectlistenerDescription;
+    private List<DetectListener> m_listDetectListener;
     private long m_lCurrentTime;
     private ExecutorService m_executerservice;
     private SensorManager m_sensormanager;
@@ -112,11 +118,11 @@ public class DetectSurfaceView extends SurfaceView implements SurfaceHolder.Call
         {
             case Sensor.TYPE_ACCELEROMETER:
 
-                final float alpha = 0.8f;//为啥0.8我也不知道
+                float f = 0.8f;//0.8有效率
 
-                m_fGravity[0] = alpha * m_fGravity[0] + (1 - alpha) * sensorvent.values[0];
-                m_fGravity[1] = alpha * m_fGravity[1] + (1 - alpha) * sensorvent.values[1];
-                m_fGravity[2] = alpha * m_fGravity[2] + (1 - alpha) * sensorvent.values[2];
+                m_fGravity[0] = f * m_fGravity[0] + (1 - f) * sensorvent.values[0];
+                m_fGravity[1] = f * m_fGravity[1] + (1 - f) * sensorvent.values[1];
+                m_fGravity[2] = f * m_fGravity[2] + (1 - f) * sensorvent.values[2];
 
                 float fX = Math.abs(sensorvent.values[0] - m_fGravity[0]);
                 float fY = Math.abs(sensorvent.values[1] - m_fGravity[1]);
@@ -340,6 +346,21 @@ public class DetectSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     public void setResultDetectListener(DetectListener resultdetectedlistener)
     {
+        if (resultdetectedlistener instanceof  AnimalDetectListener)
+            m_class = AnimalDetector.class;
+
+        if (resultdetectedlistener instanceof GeneralObjectDetectListener)
+            m_class = GeneralObjectDetector.class;
+
+        if (resultdetectedlistener instanceof PlantDetectListener)
+            m_class = PlantDetector.class;
+
+        if (resultdetectedlistener instanceof CarDetectListener)
+            m_class = CarDetector.class;
+
+        if (resultdetectedlistener instanceof  MainObjectDetectListener)
+            m_class = MainObjectDetector.class;
+
         m_detectlistenerResult = resultdetectedlistener;
     }
 
@@ -356,11 +377,6 @@ public class DetectSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public DetectListener getDescriptionDetectListener()
     {
         return m_detectlistenerDescription;
-    }
-
-    public void setAipImageClassify(String strAppId, String strAppKey, String strSecretKey)
-    {
-        AipImageClassify.setAipImageClassify(strAppId, strAppKey, strSecretKey);
     }
 
     private void init(Context context)

@@ -17,8 +17,7 @@ public class TransUtil
             ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream(b.length);
 
             YuvImage yuvimage = new YuvImage(b, ImageFormat.NV21, nWidth, nHeight, null);
-            yuvimage.compressToJpeg(new Rect(0, 0, nWidth, nHeight), 100, bytearrayoutputstream);// 80--JPG图片的质量[0-100],100最高
-
+            yuvimage.compressToJpeg(new Rect(0, 0, nWidth, nHeight), 80, bytearrayoutputstream);// 80--JPG图片的质量[0-100],100最高
 
             bytes = bytearrayoutputstream.toByteArray();
         }

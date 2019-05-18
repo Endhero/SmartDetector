@@ -14,6 +14,11 @@ import java.util.HashMap;
 
 import entity.detectresult.*;
 import entity.info.resultinfo.*;
+import imageclassify.AipImageClassify;
+
+import static com.lcd.smartdetectview.common.Constants.API_KEY;
+import static com.lcd.smartdetectview.common.Constants.APP_ID;
+import static com.lcd.smartdetectview.common.Constants.SECRET_KEY;
 
 
 public class DetectView extends FrameLayout
@@ -46,8 +51,11 @@ public class DetectView extends FrameLayout
 
     private void initView(Context context)
     {
+        AipImageClassify.setAipImageClassify(APP_ID, API_KEY, SECRET_KEY);
+
         m_detectsurfaceview = new DetectSurfaceView(context);
         m_detectfinderview = new DetectFinderView(context);
+
         m_bIsNeedMainObject = true;
         m_bIsNeedDescription = true;
 
@@ -190,18 +198,8 @@ public class DetectView extends FrameLayout
         return m_detectsurfaceview.getOptions();
     }
 
-    public void setDetectClass(Class clazz)
-    {
-        m_detectsurfaceview.setDetectClass(clazz);
-    }
-
     public Class getDetectClass()
     {
         return m_detectsurfaceview.getDetectClass();
-    }
-
-    public void setAipImageClassify(String strAppId, String strAppKey, String strSecretKey)
-    {
-        m_detectsurfaceview.setAipImageClassify(strAppId, strAppKey, strSecretKey);
     }
 }
