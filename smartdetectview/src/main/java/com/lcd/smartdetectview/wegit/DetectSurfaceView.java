@@ -324,11 +324,6 @@ public class DetectSurfaceView extends SurfaceView implements SurfaceHolder.Call
         return m_hashmapOptions;
     }
 
-    public void setDetectClass(Class clazz)
-    {
-        m_class = clazz;
-    }
-
     public Class getDetectClass()
     {
         return m_class;
